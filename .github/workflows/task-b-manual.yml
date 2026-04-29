@@ -48,5 +48,5 @@ jobs:
     needs: docker
     steps:
         - name: test
-        - curl 127.0.0.1:8080/index.html
-  # TODO: Add test job
+          run: |
+            curl 127.0.0.1:8080/index.html
