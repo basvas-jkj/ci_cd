@@ -2,11 +2,13 @@ name: task-a cd
 
 on: [push]
 
-jobs:
-  test:
-    runs-on: "ubuntu-latest"
-    name: pytest
-    steps: [
+jobs: {
+  "test":
+  {
+    "runs-on": "ubuntu-latest",
+    "name": "pytest",
+    "steps":
+    [
         {
             "uses": "actions/checkout@v4"
         },
@@ -24,5 +26,5 @@ jobs:
             "run": "pytest ./task_a/task_a.py",
         }
     ]
-            
-        
+  }
+} 
