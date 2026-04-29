@@ -7,7 +7,9 @@ on:
         description: 'Message'
         required: true
         default: 'Hello CI/CD'
-      # TODO: add tag input
+      tag:
+        description: taggg
+        required: true
 permissions:
   contents: read
   packages: write
@@ -35,17 +37,20 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: type=ref,event=tag
-      - name: docker_build
-        run: |
-            docker build -t apache ./task_b
-      - name: docker_run
-        run: |
-            docker run apache
-            # TODO: build and push docker image
+      - name: docker_build_push
+        uses: docker/build-push-action@v7
+        with:
+          context: task_b
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ inputs.tag }}
+
   test:
     runs-on: "ubuntu-latest"
     name: Docker test
     needs: docker
+    services:
+        app:
+            image: ghcr.io/${{ github.repository }}:${{ inputs.tag }}
     steps:
         - name: test
           run: |
